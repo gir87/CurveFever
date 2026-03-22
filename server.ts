@@ -12,6 +12,7 @@ async function startServer() {
   const app = express();
   const httpServer = createServer(app);
   const io = new Server(httpServer, {
+    path: "/game/socket.io",
     cors: {
       origin: "*",
     },
@@ -140,13 +141,18 @@ async function startServer() {
     const vite = await createViteServer({
       server: { middlewareMode: true },
       appType: "spa",
+      base: "/game/",
     });
     app.use(vite.middlewares);
   } else {
     const distPath = path.join(process.cwd(), "dist");
-    app.use(express.static(distPath));
-    app.get("*", (req, res) => {
+    app.use("/game", express.static(distPath));
+    app.get("/game/*", (req, res) => {
       res.sendFile(path.join(distPath, "index.html"));
+    });
+    // Redirect root to /game
+    app.get("/", (req, res) => {
+      res.redirect("/game/");
     });
   }
 
