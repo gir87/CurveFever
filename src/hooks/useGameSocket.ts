@@ -8,7 +8,9 @@ export function useGameSocket() {
   const [playerId, setPlayerId] = useState<string | null>(null);
 
   useEffect(() => {
-    const newSocket = io();
+    const newSocket = io({
+      transports: ["websocket"],
+    });
     setSocket(newSocket);
 
     newSocket.on("connect", () => {
