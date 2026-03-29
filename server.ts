@@ -17,7 +17,7 @@ async function startServer() {
     },
   });
 
-  const PORT = process.env.PORT || 3000;
+  const PORT = 3000;
   const GRID_SIZE = 40;
   const TICK_RATE = 100; // ms
 
